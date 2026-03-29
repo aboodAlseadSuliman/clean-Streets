@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>erd-v1.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="cleanstreets-erd-v1">CleanStreets ERD v1</h1>
+<h2 id="%D8%A7%D9%84%D9%81%D9%83%D8%B1%D8%A9-%D8%A7%D9%84%D8%B9%D8%A7%D9%85%D8%A9">الفكرة العامة</h2>
+<p>المشروع لا يجب أن يبنى حول &quot;الطلب&quot; فقط، بل حول &quot;الحالة&quot; أيضًا.</p>
+<p>السبب: قد يرسل أكثر من مواطن بلاغًا عن نفس السيارة المدمرة، لذلك من الأفضل فصل:</p>
+<ul>
+<li><code>reports</code>: البلاغات الواردة من المواطنين أو الجهات المحلية.</li>
+<li><code>vehicle_cases</code>: الحالة الفعلية للسيارة في الشارع بعد دمج البلاغات المتكررة.</li>
+</ul>
+<p>هذا التصميم مناسب جدًا مع Laravel + Filament لأن:</p>
+<ul>
+<li>Filament يدير لوحة الموظفين والجهات بسهولة.</li>
+<li>يمكن لاحقًا إضافة workflow واضح للحالات.</li>
+<li>يمكن تتبع كل تغيير على الحالة بدون ضياع أصل البلاغ.</li>
+</ul>
+<h2 id="%D8%A7%D9%84%D9%83%D9%8A%D8%A7%D9%86%D8%A7%D8%AA-%D8%A7%D9%84%D8%A3%D8%B3%D8%A7%D8%B3%D9%8A%D8%A9">الكيانات الأساسية</h2>
+<h3 id="1-users">1. users</h3>
+<p>مستخدمو النظام الداخليون فقط، مثل:</p>
+<ul>
+<li>مدير النظام</li>
+<li>موظف استقبال البلاغات</li>
+<li>مراقب ميداني</li>
+<li>موظف الجهة المنفذة</li>
+</ul>
+<p>أهم الحقول:</p>
+<ul>
+<li><code>id</code></li>
+<li><code>name</code></li>
+<li><code>email</code> nullable</li>
+<li><code>phone</code></li>
+<li><code>password</code></li>
+<li><code>agency_id</code> nullable</li>
+<li><code>role</code> أو يدار لاحقًا عبر permissions package</li>
+<li><code>is_active</code></li>
+<li>timestamps</li>
+</ul>
+<h3 id="2-agencies">2. agencies</h3>
+<p>تمثل الجهات المعنية، مثل:</p>
+<ul>
+<li>مجلس المدينة</li>
+<li>مديرية النقل</li>
+<li>فرع المرور</li>
+<li>الشركة السورية للمعادن</li>
+<li>لجنة حي</li>
+</ul>
+<p>أهم الحقول:</p>
+<ul>
+<li><code>id</code></li>
+<li><code>name</code></li>
+<li><code>type</code> (<code>municipality</code>, <code>traffic</code>, <code>transport</code>, <code>recycling</code>, <code>district_committee</code>, <code>other</code>)</li>
+<li><code>phone</code> nullable</li>
+<li><code>address</code> nullable</li>
+<li><code>is_active</code></li>
+<li>timestamps</li>
+</ul>
+<h3 id="3-districts">3. districts</h3>
+<p>اختياري لكنه مهم إذا أردنا التقارير على مستوى المدينة.</p>
+<p>أهم الحقول:</p>
+<ul>
+<li><code>id</code></li>
+<li><code>name</code></li>
+<li><code>code</code> nullable</li>
+<li>timestamps</li>
+</ul>
+<h3 id="4-neighborhoods">4. neighborhoods</h3>
+<p>الأحياء ضمن المدينة.</p>
+<p>أهم الحقول:</p>
+<ul>
+<li><code>id</code></li>
+<li><code>district_id</code> nullable</li>
+<li><code>name</code></li>
+<li><code>code</code> nullable</li>
+<li>timestamps</li>
+</ul>
+<h3 id="5-reporters">5. reporters</h3>
+<p>الجهة أو الشخص الذي أرسل البلاغ.
+يفضل فصلها عن <code>users</code> لأن أغلب المبلّغين لن يملكوا حسابات داخل النظام.</p>
+<p>أهم الحقول:</p>
+<ul>
+<li><code>id</code></li>
+<li><code>full_name</code></li>
+<li><code>phone</code></li>
+<li><code>whatsapp_phone</code> nullable</li>
+<li><code>source_type</code> (<code>citizen</code>, <code>district_committee</code>, <code>agency_staff</code>, <code>anonymous</code>)</li>
+<li><code>notes</code> nullable</li>
+<li>timestamps</li>
+</ul>
+<h3 id="6-vehiclecases">6. vehicle_cases</h3>
+<p>هذا هو السجل الرئيسي لكل سيارة مدمرة أو هيكل سيارة في الشارع.</p>
+<p>أهم الحقول:</p>
+<ul>
+<li><code>id</code></li>
+<li><code>case_number</code> unique</li>
+<li><code>neighborhood_id</code></li>
+<li><code>location_text</code></li>
+<li><code>nearest_landmark</code> nullable</li>
+<li><code>latitude</code> nullable</li>
+<li><code>longitude</code> nullable</li>
+<li><code>vehicle_type</code> (<code>sedan</code>, <code>pickup</code>, <code>truck</code>, <code>bus</code>, <code>motorcycle</code>, <code>unknown</code>)</li>
+<li><code>damage_type</code> (<code>burned</code>, <code>destroyed</code>, <code>abandoned_wreck</code>, <code>partially_damaged</code>, <code>unknown</code>)</li>
+<li><code>plate_number</code> nullable</li>
+<li><code>color</code> nullable</li>
+<li><code>make_model</code> nullable</li>
+<li><code>priority</code> (<code>low</code>, <code>medium</code>, <code>high</code>, <code>critical</code>)</li>
+<li><code>current_status</code> (<code>new</code>, <code>under_review</code>, <code>verified</code>, <code>duplicate</code>, <code>assigned</code>, <code>scheduled</code>, <code>removed</code>, <code>rejected</code>, <code>closed</code>)</li>
+<li><code>reported_reports_count</code> default 0</li>
+<li><code>first_reported_at</code></li>
+<li><code>last_reported_at</code></li>
+<li><code>verified_at</code> nullable</li>
+<li><code>removed_at</code> nullable</li>
+<li><code>created_by</code> nullable</li>
+<li>timestamps</li>
+</ul>
+<p>ملاحظات:</p>
+<ul>
+<li>هذا الجدول يمثل &quot;الحقيقة التشغيلية&quot; داخل النظام.</li>
+<li>يمكن دمج عدة بلاغات داخله.</li>
+</ul>
+<h3 id="7-reports">7. reports</h3>
+<p>كل بلاغ وارد من مواطن أو لجنة أو جهة.</p>
+<p>أهم الحقول:</p>
+<ul>
+<li><code>id</code></li>
+<li><code>reference_number</code> unique</li>
+<li><code>vehicle_case_id</code> nullable</li>
+<li><code>reporter_id</code> nullable</li>
+<li><code>submitted_by_user_id</code> nullable</li>
+<li><code>channel</code> (<code>web</code>, <code>whatsapp</code>, <code>phone</code>, <code>field_entry</code>, <code>district_committee</code>, <code>agency</code>)</li>
+<li><code>neighborhood_id</code> nullable</li>
+<li><code>location_text</code></li>
+<li><code>nearest_landmark</code> nullable</li>
+<li><code>latitude</code> nullable</li>
+<li><code>longitude</code> nullable</li>
+<li><code>description</code> nullable</li>
+<li><code>vehicle_type</code> nullable</li>
+<li><code>damage_type</code> nullable</li>
+<li><code>plate_number</code> nullable</li>
+<li><code>status</code> (<code>pending_review</code>, <code>linked_to_case</code>, <code>duplicate</code>, <code>rejected</code>)</li>
+<li><code>review_note</code> nullable</li>
+<li><code>submitted_at</code></li>
+<li><code>reviewed_at</code> nullable</li>
+<li>timestamps</li>
+</ul>
+<p>ملاحظات:</p>
+<ul>
+<li>يمكن أن يبقى البلاغ بدون ربط بحالة حتى يراجعه الموظف.</li>
+<li>بعد المراجعة يربط مع <code>vehicle_cases</code> أو يرفض أو يعتبر مكررًا.</li>
+</ul>
+<h3 id="8-reportattachments">8. report_attachments</h3>
+<p>صور البلاغات والمرفقات الأولية.</p>
+<p>أهم الحقول:</p>
+<ul>
+<li><code>id</code></li>
+<li><code>report_id</code></li>
+<li><code>file_path</code></li>
+<li><code>file_name</code></li>
+<li><code>mime_type</code></li>
+<li><code>file_size</code> nullable</li>
+<li><code>caption</code> nullable</li>
+<li>timestamps</li>
+</ul>
+<h3 id="9-inspections">9. inspections</h3>
+<p>التحقق الميداني أو الإداري من وجود السيارة وحالتها الفعلية.</p>
+<p>أهم الحقول:</p>
+<ul>
+<li><code>id</code></li>
+<li><code>vehicle_case_id</code></li>
+<li><code>inspector_user_id</code></li>
+<li><code>agency_id</code> nullable</li>
+<li><code>inspection_result</code> (<code>confirmed</code>, <code>not_found</code>, <code>duplicate</code>, <code>out_of_scope</code>, <code>deferred</code>)</li>
+<li><code>notes</code> nullable</li>
+<li><code>inspected_at</code></li>
+<li>timestamps</li>
+</ul>
+<h3 id="10-caseassignments">10. case_assignments</h3>
+<p>إحالة الحالة إلى جهة معينة أو موظف محدد.</p>
+<p>أهم الحقول:</p>
+<ul>
+<li><code>id</code></li>
+<li><code>vehicle_case_id</code></li>
+<li><code>agency_id</code></li>
+<li><code>assigned_to_user_id</code> nullable</li>
+<li><code>assigned_by_user_id</code> nullable</li>
+<li><code>assignment_status</code> (<code>active</code>, <code>accepted</code>, <code>in_progress</code>, <code>completed</code>, <code>cancelled</code>)</li>
+<li><code>assigned_at</code></li>
+<li><code>due_at</code> nullable</li>
+<li><code>notes</code> nullable</li>
+<li>timestamps</li>
+</ul>
+<h3 id="11-removals">11. removals</h3>
+<p>تسجيل عملية الإزالة نفسها عند التنفيذ.</p>
+<p>أهم الحقول:</p>
+<ul>
+<li><code>id</code></li>
+<li><code>vehicle_case_id</code></li>
+<li><code>assignment_id</code> nullable</li>
+<li><code>agency_id</code></li>
+<li><code>executed_by_user_id</code> nullable</li>
+<li><code>scheduled_at</code> nullable</li>
+<li><code>started_at</code> nullable</li>
+<li><code>completed_at</code> nullable</li>
+<li><code>result</code> (<code>removed</code>, <code>partially_removed</code>, <code>failed</code>, <code>cancelled</code>)</li>
+<li><code>destination</code> nullable</li>
+<li><code>notes</code> nullable</li>
+<li>timestamps</li>
+</ul>
+<h3 id="12-casestatuslogs">12. case_status_logs</h3>
+<p>سجل زمني لكل انتقال حالة.</p>
+<p>أهم الحقول:</p>
+<ul>
+<li><code>id</code></li>
+<li><code>vehicle_case_id</code></li>
+<li><code>from_status</code> nullable</li>
+<li><code>to_status</code></li>
+<li><code>changed_by_user_id</code> nullable</li>
+<li><code>reason</code> nullable</li>
+<li><code>created_at</code></li>
+</ul>
+<h2 id="%D8%A7%D9%84%D8%B9%D9%84%D8%A7%D9%82%D8%A7%D8%AA">العلاقات</h2>
+<ul>
+<li><code>agencies</code> 1:N <code>users</code></li>
+<li><code>districts</code> 1:N <code>neighborhoods</code></li>
+<li><code>neighborhoods</code> 1:N <code>vehicle_cases</code></li>
+<li><code>neighborhoods</code> 1:N <code>reports</code></li>
+<li><code>reporters</code> 1:N <code>reports</code></li>
+<li><code>vehicle_cases</code> 1:N <code>reports</code></li>
+<li><code>reports</code> 1:N <code>report_attachments</code></li>
+<li><code>vehicle_cases</code> 1:N <code>inspections</code></li>
+<li><code>vehicle_cases</code> 1:N <code>case_assignments</code></li>
+<li><code>vehicle_cases</code> 1:N <code>case_status_logs</code></li>
+<li><code>vehicle_cases</code> 1:N <code>removals</code></li>
+<li><code>agencies</code> 1:N <code>case_assignments</code></li>
+<li><code>agencies</code> 1:N <code>removals</code></li>
+</ul>
+<h2 id="mermaid-erd">Mermaid ERD</h2>
+<pre><code class="language-mermaid"><div class="mermaid">erDiagram
+    AGENCIES ||--o{ USERS : has
+    DISTRICTS ||--o{ NEIGHBORHOODS : contains
+    NEIGHBORHOODS ||--o{ VEHICLE_CASES : has
+    NEIGHBORHOODS ||--o{ REPORTS : receives
+    REPORTERS ||--o{ REPORTS : submits
+    VEHICLE_CASES ||--o{ REPORTS : groups
+    REPORTS ||--o{ REPORT_ATTACHMENTS : includes
+    VEHICLE_CASES ||--o{ INSPECTIONS : checked_by
+    VEHICLE_CASES ||--o{ CASE_ASSIGNMENTS : assigned_to
+    VEHICLE_CASES ||--o{ REMOVALS : resolved_by
+    VEHICLE_CASES ||--o{ CASE_STATUS_LOGS : tracks
+    AGENCIES ||--o{ CASE_ASSIGNMENTS : receives
+    AGENCIES ||--o{ REMOVALS : executes
+
+    AGENCIES {
+      bigint id PK
+      string name
+      string type
+      string phone
+      boolean is_active
+    }
+
+    USERS {
+      bigint id PK
+      bigint agency_id FK
+      string name
+      string email
+      string phone
+      string role
+      boolean is_active
+    }
+
+    DISTRICTS {
+      bigint id PK
+      string name
+      string code
+    }
+
+    NEIGHBORHOODS {
+      bigint id PK
+      bigint district_id FK
+      string name
+      string code
+    }
+
+    REPORTERS {
+      bigint id PK
+      string full_name
+      string phone
+      string whatsapp_phone
+      string source_type
+    }
+
+    VEHICLE_CASES {
+      bigint id PK
+      string case_number
+      bigint neighborhood_id FK
+      string location_text
+      decimal latitude
+      decimal longitude
+      string vehicle_type
+      string damage_type
+      string plate_number
+      string priority
+      string current_status
+      datetime first_reported_at
+      datetime removed_at
+    }
+
+    REPORTS {
+      bigint id PK
+      string reference_number
+      bigint vehicle_case_id FK
+      bigint reporter_id FK
+      bigint submitted_by_user_id FK
+      bigint neighborhood_id FK
+      string channel
+      string location_text
+      decimal latitude
+      decimal longitude
+      string status
+      datetime submitted_at
+    }
+
+    REPORT_ATTACHMENTS {
+      bigint id PK
+      bigint report_id FK
+      string file_path
+      string mime_type
+    }
+
+    INSPECTIONS {
+      bigint id PK
+      bigint vehicle_case_id FK
+      bigint inspector_user_id FK
+      bigint agency_id FK
+      string inspection_result
+      datetime inspected_at
+    }
+
+    CASE_ASSIGNMENTS {
+      bigint id PK
+      bigint vehicle_case_id FK
+      bigint agency_id FK
+      bigint assigned_to_user_id FK
+      bigint assigned_by_user_id FK
+      string assignment_status
+      datetime assigned_at
+      datetime due_at
+    }
+
+    REMOVALS {
+      bigint id PK
+      bigint vehicle_case_id FK
+      bigint assignment_id FK
+      bigint agency_id FK
+      bigint executed_by_user_id FK
+      string result
+      datetime scheduled_at
+      datetime completed_at
+    }
+
+    CASE_STATUS_LOGS {
+      bigint id PK
+      bigint vehicle_case_id FK
+      string from_status
+      string to_status
+      bigint changed_by_user_id FK
+      string reason
+      datetime created_at
+    }
+</div></code></pre>
+<h2 id="%D8%AA%D8%B3%D9%84%D8%B3%D9%84-%D8%A7%D9%84%D8%B9%D9%85%D9%84-%D8%A7%D9%84%D9%85%D9%82%D8%AA%D8%B1%D8%AD">تسلسل العمل المقترح</h2>
+<ol>
+<li>المواطن يرسل بلاغًا مع صورة وموقع تقريبي.</li>
+<li>الموظف يراجع البلاغ.</li>
+<li>إذا كانت السيارة جديدة ينشأ <code>vehicle_case</code>.</li>
+<li>إذا كانت مكررة يربط البلاغ مع حالة موجودة.</li>
+<li>تسجل زيارة تحقق في <code>inspections</code>.</li>
+<li>تحال الحالة إلى جهة عبر <code>case_assignments</code>.</li>
+<li>عند التنفيذ تسجل العملية في <code>removals</code>.</li>
+<li>كل انتقال حالة يسجل في <code>case_status_logs</code>.</li>
+</ol>
+<h2 id="%D9%85%D9%84%D8%A7%D8%AD%D8%B8%D8%A7%D8%AA-%D9%85%D9%87%D9%85%D8%A9-%D9%82%D8%A8%D9%84-%D8%A7%D9%84%D8%AA%D9%86%D9%81%D9%8A%D8%B0">ملاحظات مهمة قبل التنفيذ</h2>
+<ul>
+<li>لا أنصح بجعل المواطن مستخدمًا داخليًا في <code>users</code> في المرحلة الأولى.</li>
+<li>لا أنصح بالاكتفاء بجدول <code>reports</code> فقط لأن التكرار سيكون عاليًا جدًا.</li>
+<li>إذا أردنا لوحة Filament قوية، فهذا النموذج مناسب جدًا للـ Resources والـ Relation Managers.</li>
+<li>يمكن لاحقًا إضافة جدول <code>case_comments</code> للملاحظات الداخلية إذا احتجناه.</li>
+<li>يمكن لاحقًا استبدال <code>report_attachments</code> بحل Media Library إن أردنا.</li>
+</ul>
+<h2 id="%D8%A7%D9%82%D8%AA%D8%B1%D8%A7%D8%AD-%D8%A7%D9%84%D9%85%D8%B1%D8%AD%D9%84%D8%A9-%D8%A7%D9%84%D8%AA%D8%A7%D9%84%D9%8A%D8%A9">اقتراح المرحلة التالية</h2>
+<p>بعد اعتماد هذا ERD ننتقل مباشرة إلى:</p>
+<ol>
+<li>إنشاء migrations الأساسية.</li>
+<li>بناء Eloquent models والعلاقات.</li>
+<li>تثبيت Filament.</li>
+<li>إنشاء لوحة إدارة للحالات والبلاغات والجهات.</li>
+</ol>
+
+</body>
+</html>

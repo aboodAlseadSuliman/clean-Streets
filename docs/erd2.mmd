@@ -1,0 +1,155 @@
+erDiagram
+    AGENCIES ||--o{ USERS : has
+    DISTRICTS ||--o{ NEIGHBORHOODS : contains
+    DISTRICTS ||--o{ REPORTS : groups
+    DISTRICTS ||--o{ VEHICLE_CASES : groups
+    NEIGHBORHOODS ||--o{ REPORTS : receives
+    NEIGHBORHOODS ||--o{ VEHICLE_CASES : contains
+    CITIZENS ||--o{ REPORTS : submits
+    VEHICLE_CASES ||--o{ REPORTS : linked_from
+    REPORTS ||--o{ REPORT_ATTACHMENTS : includes
+    VEHICLE_CASES ||--o{ CASE_ATTACHMENTS : stores
+    VEHICLE_CASES ||--o{ INSPECTIONS : verified_by
+    VEHICLE_CASES ||--o{ CASE_ASSIGNMENTS : assigned_to
+    CASE_ASSIGNMENTS ||--o{ ASSIGNMENT_UPDATES : updated_by
+    VEHICLE_CASES ||--o{ REMOVALS : resolved_by
+    VEHICLE_CASES ||--o{ CASE_STATUS_LOGS : tracks
+    AGENCIES ||--o{ CASE_ASSIGNMENTS : owns
+    AGENCIES ||--o{ ASSIGNMENT_UPDATES : posts
+    AGENCIES ||--o{ REMOVALS : executes
+
+    AGENCIES {
+      bigint id PK
+      string name
+      string type
+      boolean is_active
+    }
+
+    USERS {
+      bigint id PK
+      bigint agency_id FK
+      string name
+      string role
+      boolean is_active
+    }
+
+    DISTRICTS {
+      bigint id PK
+      string name
+    }
+
+    NEIGHBORHOODS {
+      bigint id PK
+      bigint district_id FK
+      string name
+    }
+
+    CITIZENS {
+      bigint id PK
+      string full_name
+      string phone
+      string whatsapp_phone
+    }
+
+    REPORTS {
+      bigint id PK
+      string tracking_code
+      bigint citizen_id FK
+      bigint vehicle_case_id FK
+      string request_type
+      text complaint_details
+      string address_text
+      string google_maps_url
+      decimal latitude
+      decimal longitude
+      string vehicle_type
+      string damage_type
+      string public_status
+      string internal_status
+      datetime submitted_at
+    }
+
+    REPORT_ATTACHMENTS {
+      bigint id PK
+      bigint report_id FK
+      string file_path
+      string mime_type
+    }
+
+    VEHICLE_CASES {
+      bigint id PK
+      string case_number
+      bigint source_report_id FK
+      bigint owning_agency_id FK
+      bigint district_id FK
+      bigint neighborhood_id FK
+      string location_text
+      string google_maps_url
+      decimal latitude
+      decimal longitude
+      string vehicle_type
+      string damage_type
+      string plate_number
+      string priority
+      string current_status
+      datetime first_reported_at
+      datetime removed_at
+    }
+
+    CASE_ATTACHMENTS {
+      bigint id PK
+      bigint vehicle_case_id FK
+      bigint uploaded_by_user_id FK
+      string category
+      string file_path
+    }
+
+    INSPECTIONS {
+      bigint id PK
+      bigint vehicle_case_id FK
+      bigint inspector_user_id FK
+      bigint agency_id FK
+      string inspection_result
+      datetime inspected_at
+    }
+
+    CASE_ASSIGNMENTS {
+      bigint id PK
+      bigint vehicle_case_id FK
+      bigint agency_id FK
+      bigint assigned_to_user_id FK
+      bigint assigned_by_user_id FK
+      string assignment_status
+      datetime assigned_at
+      datetime due_at
+    }
+
+    ASSIGNMENT_UPDATES {
+      bigint id PK
+      bigint case_assignment_id FK
+      bigint agency_id FK
+      bigint user_id FK
+      string update_type
+      text message
+      datetime created_at
+    }
+
+    REMOVALS {
+      bigint id PK
+      bigint vehicle_case_id FK
+      bigint case_assignment_id FK
+      bigint agency_id FK
+      bigint executed_by_user_id FK
+      string result
+      datetime scheduled_at
+      datetime completed_at
+    }
+
+    CASE_STATUS_LOGS {
+      bigint id PK
+      bigint vehicle_case_id FK
+      string from_status
+      string to_status
+      bigint changed_by_user_id FK
+      datetime created_at
+    }

@@ -1,0 +1,134 @@
+%% ```mermaid
+erDiagram
+    AGENCIES ||--o{ USERS : has
+    DISTRICTS ||--o{ NEIGHBORHOODS : contains
+    NEIGHBORHOODS ||--o{ VEHICLE_CASES : has
+    NEIGHBORHOODS ||--o{ REPORTS : receives
+    REPORTERS ||--o{ REPORTS : submits
+    VEHICLE_CASES ||--o{ REPORTS : groups
+    REPORTS ||--o{ REPORT_ATTACHMENTS : includes
+    VEHICLE_CASES ||--o{ INSPECTIONS : checked_by
+    VEHICLE_CASES ||--o{ CASE_ASSIGNMENTS : assigned_to
+    VEHICLE_CASES ||--o{ REMOVALS : resolved_by
+    VEHICLE_CASES ||--o{ CASE_STATUS_LOGS : tracks
+    AGENCIES ||--o{ CASE_ASSIGNMENTS : receives
+    AGENCIES ||--o{ REMOVALS : executes
+
+    AGENCIES {
+      bigint id PK
+      string name
+      string type
+      string phone
+      boolean is_active
+    }
+
+    USERS {
+      bigint id PK
+      bigint agency_id FK
+      string name
+      string email
+      string phone
+      string role
+      boolean is_active
+    }
+
+    DISTRICTS {
+      bigint id PK
+      string name
+      string code
+    }
+
+    NEIGHBORHOODS {
+      bigint id PK
+      bigint district_id FK
+      string name
+      string code
+    }
+
+    REPORTERS {
+      bigint id PK
+      string full_name
+      string phone
+      string whatsapp_phone
+      string source_type
+    }
+
+    VEHICLE_CASES {
+      bigint id PK
+      string case_number
+      bigint neighborhood_id FK
+      string location_text
+      decimal latitude
+      decimal longitude
+      string vehicle_type
+      string damage_type
+      string plate_number
+      string priority
+      string current_status
+      datetime first_reported_at
+      datetime removed_at
+    }
+
+    REPORTS {
+      bigint id PK
+      string reference_number
+      bigint vehicle_case_id FK
+      bigint reporter_id FK
+      bigint submitted_by_user_id FK
+      bigint neighborhood_id FK
+      string channel
+      string location_text
+      decimal latitude
+      decimal longitude
+      string status
+      datetime submitted_at
+    }
+
+    REPORT_ATTACHMENTS {
+      bigint id PK
+      bigint report_id FK
+      string file_path
+      string mime_type
+    }
+
+    INSPECTIONS {
+      bigint id PK
+      bigint vehicle_case_id FK
+      bigint inspector_user_id FK
+      bigint agency_id FK
+      string inspection_result
+      datetime inspected_at
+    }
+
+    CASE_ASSIGNMENTS {
+      bigint id PK
+      bigint vehicle_case_id FK
+      bigint agency_id FK
+      bigint assigned_to_user_id FK
+      bigint assigned_by_user_id FK
+      string assignment_status
+      datetime assigned_at
+      datetime due_at
+    }
+
+    REMOVALS {
+      bigint id PK
+      bigint vehicle_case_id FK
+      bigint assignment_id FK
+      bigint agency_id FK
+      bigint executed_by_user_id FK
+      string result
+      datetime scheduled_at
+      datetime completed_at
+    }
+
+    CASE_STATUS_LOGS {
+      bigint id PK
+      bigint vehicle_case_id FK
+      string from_status
+      string to_status
+      bigint changed_by_user_id FK
+      string reason
+      datetime created_at
+    }
+%% ```
