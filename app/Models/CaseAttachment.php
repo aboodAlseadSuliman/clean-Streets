@@ -37,4 +37,13 @@ class CaseAttachment extends Model
             'file_size' => 'integer',
         ];
     }
+
+    protected function getPublicUrlAttribute(): ?string
+    {
+        if (blank($this->file_path)) {
+            return null;
+        }
+
+        return url("storage/{$this->file_path}");
+    }
 }
